@@ -12,6 +12,8 @@ class UserService {
     })
     return res
   }
+
+
 }
 
 module.exports = new UserService()

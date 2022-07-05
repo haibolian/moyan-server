@@ -41,7 +41,11 @@ const crpytPassword = async (ctx, next) => {
 }
 
 const verifyLogin = async (ctx, next) => {
-  
+  const res = await getUserInfo(ctx.request.body.username)
+  if(!res) return ctx.body = userDoesNotExist;
+  const { password } = ctx.request.body;
+  const isValid = bcrypt.compareSync(password, res.password)
+  if(!isValid) return ctx.body = invalidPassword;
   await next()
 }
 
