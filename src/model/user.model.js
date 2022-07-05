@@ -1,6 +1,5 @@
-// const { DataTypes } = require('sequelize')
-import { DataTypes } from 'sequelize'
-import seq from '../db/seq'
+const { DataTypes } = require('sequelize');
+const seq = require('../db/seq');
 
 // 创建模型(Model zd_user -> 表 zd_users)
 const User = seq.define('user', {
@@ -18,12 +17,12 @@ const User = seq.define('user', {
   },
   nickname: {
     type: DataTypes.STRING(20),
-    allowNull: false,
+    allowNull: true,
     comment: '昵称',
   },
   avatar: {
     type: DataTypes.STRING(1024),
-    allowNull: false,
+    allowNull: true,
     comment: '头像',
   },
   motto: {
@@ -31,9 +30,9 @@ const User = seq.define('user', {
     allowNull: true,
     comment: '座右铭',
   }
-})
+});
 
 // 强制同步数据库(创建数据表)
 // User.sync({ force: true })
 
-export default User
+module.exports = User
