@@ -3,7 +3,6 @@ const {
   createUser,
   getUserInfo
 } = require('../service/user.service')
-const { JWT_SECRET } = require('../config/config.default')
 
 class UserController {
   async register(ctx, next) {
@@ -19,7 +18,7 @@ class UserController {
   async login(ctx){
     const { username } = ctx.request.body;
     const { password, ...res } = await getUserInfo(username)
-    const token = jwt.sign(res, JWT_SECRET, { expiresIn: '1d' })
+    const token = jwt.sign(res, process.env.JWT_SECRET, { expiresIn: '1d' })
     return ctx.body = {
       message: '登录成功',
       data: {
