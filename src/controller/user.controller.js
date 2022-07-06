@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const app = require('../app');
 const {
   createUser,
   getUserInfo,
@@ -44,6 +45,10 @@ class UserController {
       data: null,
       success: true
     }
+  }
+
+  async updateAvatar(ctx) {
+
   }
   
 }

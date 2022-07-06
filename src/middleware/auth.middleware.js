@@ -1,6 +1,6 @@
 
 const jwt = require('jsonwebtoken');
-const { tokenExpiredError } = require('../constant/err.type');
+const { tokenExpiredError, invalidToken } = require('../constant/err.type');
 
 const auth = async (ctx, next) => {
   const { authorization = ''} = ctx.headers;
