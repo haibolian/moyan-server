@@ -12,12 +12,12 @@ const Speak = seq.define('speak', {
     allowNull: true,
     comment: '说说图片', 
   },
-  ownerId: {
+  from_id: {
     type: DataTypes.STRING,
     allowNull: false,
     comment: '说说所属用户id',
   },
-  ownerNickname: {
+  from_nickname: {
     type: DataTypes.STRING,
     allowNull: false,
     comment: '说说所属用户昵称',

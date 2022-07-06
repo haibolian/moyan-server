@@ -16,7 +16,7 @@ class SpeakService {
 
   async getAllSpeakByUserId(userId, pageNum, pageSize) {
     const { count, rows } = await Speak.findAndCountAll({
-      attributes: ['id', 'content', 'images', 'ownerId', 'ownerNickname', 'createdAt'],
+      attributes: ['id', 'content', 'images', 'from_id', 'from_nickname', 'createdAt'],
       where: { ownerId: userId },
       offset: (pageNum - 1) * pageSize,
       limit: pageSize * 1
