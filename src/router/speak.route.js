@@ -1,8 +1,10 @@
 const Router = require('koa-router');
-const { publish } = require('../controller/speak.controller');
+const { publish, del, getAll } = require('../controller/speak.controller');
 const { auth } = require('../middleware/auth.middleware');
 const router = new Router({ prefix: '/speak' })
 
-router.post('/publish', auth, publish)
+router.post('/publish', auth, publish);
+router.delete('/del/:id', auth, del);
+router.get('/getAll', auth, getAll);
 
 module.exports = router

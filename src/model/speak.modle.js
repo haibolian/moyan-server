@@ -24,6 +24,6 @@ const Speak = seq.define('speak', {
   }
 })
 
-Speak.sync({ force: true })
+// Speak.sync({ force: true })
 
 module.exports = Speak
