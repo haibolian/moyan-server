@@ -13,7 +13,11 @@ class UserService {
     return res?.dataValues
   }
 
-
+  async updateUserInfo(id, userInfo) {
+    const res = await User.update(userInfo, { where: { id } })
+    console.log('update-res', res);
+    return res
+  }
 }
 
 module.exports = new UserService()

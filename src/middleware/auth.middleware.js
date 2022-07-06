@@ -16,7 +16,7 @@ const auth = async (ctx, next) => {
         return ctx.body = invalidToken
     }
   }
-  next()
+  await next()
 }
 
 module.exports = {

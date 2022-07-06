@@ -1,7 +1,8 @@
 const jwt = require('jsonwebtoken');
 const {
   createUser,
-  getUserInfo
+  getUserInfo,
+  updateUserInfo
 } = require('../service/user.service')
 
 class UserController {
@@ -30,8 +31,18 @@ class UserController {
   }
 
   async getUser(ctx) {
+    const { password, ...res } = await getUserInfo(ctx.state.user.username);
     return ctx.body = {
-      ...ctx.state.user
+      ...res
+    }
+  }
+
+  async updateInfo(ctx) {
+    const res = await updateUserInfo(ctx.state.user.id, ctx.request.body)
+    return ctx.body = {
+      message: '更新成功',
+      data: null,
+      success: true
     }
   }
   
