@@ -17,7 +17,8 @@ class UserController {
   
   async login(ctx){
     const { username } = ctx.request.body;
-    const { password, ...res } = await getUserInfo(username)
+    const { password, ...res } = await getUserInfo(username);
+    console.log('res', res);
     const token = jwt.sign(res, process.env.JWT_SECRET, { expiresIn: '1d' })
     return ctx.body = {
       message: '登录成功',
@@ -27,6 +28,13 @@ class UserController {
       success: true
     }
   }
+
+  async getUser(ctx) {
+    return ctx.body = {
+      ...ctx.state.user
+    }
+  }
+  
 }
 
 module.exports = new UserController()

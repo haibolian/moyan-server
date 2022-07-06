@@ -10,7 +10,7 @@ class UserService {
     const res = await User.findOne({
       where: { username }
     })
-    return res
+    return res?.dataValues
   }
 
 
