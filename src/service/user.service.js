@@ -6,7 +6,7 @@ class UserService {
     return res.dataValues
   }
 
-  async getUserInfo(username){
+  async getUserInfo(username = ''){
     const res = await User.findOne({
       where: { username }
     })

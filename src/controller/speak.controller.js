@@ -3,19 +3,16 @@ const {
 } = require('../service/speak.service')
 class SpeakController {
   async publish(ctx) {
-    const res = await publishSpeak(ctx.state.user, ctx.request.body)
-    ctx.body = res
+    ctx.body = await publishSpeak(ctx.request.body)
   }
 
   async del(ctx) {
     const { id } = ctx.request.params;
     const res = await del(id)
-    if(res){
-      ctx.body = {
-        success: true,
-        message: '删除成功',
-        data: id
-      }
+    ctx.body = {
+      success: !!res,
+      message: res ? '删除成功' : '删除失败',
+      data: id
     }
   }
 

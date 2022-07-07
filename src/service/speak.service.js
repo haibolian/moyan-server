@@ -1,11 +1,9 @@
 const Speak = require("../model/speak.modle")
 
 class SpeakService {
-  async publishSpeak(user, body) {
-    const { id: ownerId, nickname: ownerNickname } = user
-    const { content, images } = body
-    
-    const res = await Speak.create({ ownerId, ownerNickname, content })
+  async publishSpeak(body) {
+    const { id: from_id, nickname: from_nickname, content, images} = body
+    const res = await Speak.create({ from_id, from_nickname, content })
     return res?.dataValues
   }
   
@@ -16,8 +14,8 @@ class SpeakService {
 
   async getAllSpeakByUserId(userId, pageNum, pageSize) {
     const { count, rows } = await Speak.findAndCountAll({
-      attributes: ['id', 'content', 'images', 'from_id', 'from_nickname', 'createdAt'],
-      where: { ownerId: userId },
+      attributes: ['id', 'content', 'images', 'from_id', 'from_nickname', 'created_at'],
+      where: { from_id: userId },
       offset: (pageNum - 1) * pageSize,
       limit: pageSize * 1
     })

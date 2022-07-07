@@ -22,6 +22,9 @@ const Speak = seq.define('speak', {
     allowNull: false,
     comment: '说说所属用户昵称',
   }
+},{
+  createdAt: 'created_at',
+  updatedAt: 'updated_at'
 })
 
 // Speak.sync({ force: true })

@@ -36,6 +36,6 @@ const Comment = seq.define('comment', {
   //   allowNull: false,
   //   comment: '评论者头像'
   // },
-Comment.sync({ force: true })
+// Comment.sync({ force: true })
 
 module.exports = Comment

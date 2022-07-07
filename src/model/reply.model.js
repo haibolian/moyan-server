@@ -32,9 +32,11 @@ const Reply = seq.define('reply', {
     allowNull: false,
     comment: "被回复者ID"
   }
-  
+},{
+  createdAt: 'created_at',
+  updatedAt: 'updated_at'
 })
 
-Reply.sync({ force: true })
+// Reply.sync({ force: true })
 
 module.exports = Reply

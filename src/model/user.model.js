@@ -30,6 +30,9 @@ const User = seq.define('user', {
     allowNull: true,
     comment: '座右铭',
   }
+},{
+  createdAt: 'created_at',
+  updatedAt: 'updated_at'
 });
 
 // 强制同步数据库(创建数据表)
