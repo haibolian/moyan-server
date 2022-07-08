@@ -21,11 +21,12 @@ class UserController {
     const { username } = ctx.request.body;
     const { password, ...res } = await getUserInfo(username);
     console.log('res', res);
-    const token = jwt.sign(res, process.env.JWT_SECRET, { expiresIn: '1d' })
+    const accessToken = jwt.sign(res, process.env.JWT_SECRET, { expiresIn: '1d' })
     return ctx.body = {
       message: '登录成功',
       data: {
-        token
+        accessToken,
+        username
       },
       success: true
     }
