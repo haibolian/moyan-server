@@ -46,11 +46,6 @@ class UserController {
       success: true
     }
   }
-
-  async updateAvatar(ctx) {
-
-  }
-  
 }
 
 module.exports = new UserController()

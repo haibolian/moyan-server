@@ -1,6 +1,7 @@
 const path = require('path')
 const fs = require('fs')
 const Koa = require('koa')
+const formidable = require('formidable');
 const KoaBody = require('koa-body')
 const KoaStatic = require('koa-static')
 const parameter = require('koa-parameter')
@@ -14,15 +15,15 @@ app.use(
   KoaBody({
     multipart: true,
     formidable: {
+      maxFileSize: 1024 * 1024 * 50
       // 在配制选项option里, 不推荐使用相对路径
       // 在option里的相对路径, 不是相对的当前文件. 相对process.cwd()
-      uploadDir: path.join(__dirname, '../upload'),
-      keepExtensions: true,
+      // uploadDir: path.join(__dirname, '../upload'),
+      // keepExtensions: true,
       // onFileBegin: (name, file) => {
       //   // 无论是多文件还是单文件上传都会重复调用此函数
       //   // 最终要保存到的文件夹目录
-      //   const dirName = new Date().getFullYear();
-      //   const dir = path.join(__dirname, `../upload/${dirName}`);
+      //   const dir = path.join(__dirname, `../upload/avatar`);
       //   // 检查文件夹是否存在如果不存在则新建文件夹
       //   if (!fs.existsSync(dir)) {
       //     fs.mkdirSync(dir);
@@ -45,6 +46,7 @@ app.use(
     parsedMethods: ['POST', 'PUT', 'PATCH', 'DELETE'],
   })
 )
+
 app.use(KoaStatic(path.join(__dirname, '../upload')))
 app.use(parameter(app))
 
