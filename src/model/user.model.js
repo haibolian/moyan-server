@@ -29,13 +29,16 @@ const User = seq.define('user', {
     type: DataTypes.STRING,
     allowNull: true,
     comment: '座右铭',
-  }
+  },
 },{
   createdAt: 'created_at',
   updatedAt: 'updated_at'
 });
+User.addHook('afterFind', (user, options) => {
+  user.dataValues.created_at = '2022-1-1'
+})
 
 // 强制同步数据库(创建数据表)
-// User.sync({ force: true })
+//  User.sync({ force: true })
 
 module.exports = User
