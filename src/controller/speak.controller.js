@@ -7,13 +7,9 @@ class SpeakController {
   }
 
   async del(ctx) {
-    const { id } = ctx.request.params;
+    const { id } = ctx.request.query;
     const res = await del(id)
-    ctx.body = {
-      success: !!res,
-      message: res ? '删除成功' : '删除失败',
-      data: id
-    }
+    ctx.body = res
   }
 
   async getAll(ctx) {
