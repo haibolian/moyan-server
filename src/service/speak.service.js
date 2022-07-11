@@ -28,7 +28,11 @@ class SpeakService {
   
   async del(id) {
     const res = await Speak.destroy({ where: { id } })
-    return res
+    return {
+      success: !!res,
+      message: res ? '删除成功' : '删除失败',
+      data: id
+    }
   }
 
   async getAllSpeakByUserId(userId, pageNum, pageSize) {
@@ -43,7 +47,6 @@ class SpeakService {
         model: User
       }],
     })
-    
     return {
       pageNum,
       pageSize,

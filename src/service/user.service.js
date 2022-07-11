@@ -1,8 +1,10 @@
+const { getRandomStr } = require('../utils/random')
 const User = require('../model/user.model')
 
 class UserService {
   async createUser(username, password) {
-    const res = await User.create({ username, password })
+    const nickname = getRandomStr()
+    const res = await User.create({ username, password, nickname })
     return res.dataValues
   }
 

@@ -5,7 +5,7 @@ const router = new Router({ prefix: '/speak' })
 
 router.post('/publish', auth, publish);
 
-router.delete('/del/:id', auth, del);
+router.delete('/del', auth, del);
 
 router.get('/getAll', auth, getAll);
 
