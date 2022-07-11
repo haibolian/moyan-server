@@ -37,8 +37,9 @@ class SpeakService {
       where: { from_id: userId },
       offset: (pageNum - 1) * pageSize,
       limit: pageSize * 1,
+      order: [['created_at', 'DESC']],
       include: [{
-        attributes: ['id', 'nickname', 'avatar'],
+        attributes: ['id', 'nickname', 'avatar'], 
         model: User
       }],
     })
