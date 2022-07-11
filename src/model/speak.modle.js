@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const seq = require('../db/seq');
+const User = require('./user.model');
 
 const Speak = seq.define('speak', {
   content: {
@@ -16,15 +17,16 @@ const Speak = seq.define('speak', {
     type: DataTypes.STRING,
     allowNull: false,
     comment: '说说所属用户id',
-  },
-  from_nickname: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    comment: '说说所属用户昵称',
   }
 },{
   createdAt: 'created_at',
   updatedAt: 'updated_at'
+})
+
+Speak.belongsTo(User, {
+  foreignKey: 'from_id',
+  targetKey: 'id',
+  // as: 'userInfo'
 })
 
 // Speak.sync({ force: true })

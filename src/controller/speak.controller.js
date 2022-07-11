@@ -3,7 +3,7 @@ const {
 } = require('../service/speak.service')
 class SpeakController {
   async publish(ctx) {
-    ctx.body = await publishSpeak(ctx.request.body)
+    ctx.body = await publishSpeak(ctx.state.user.id, ctx.request.body)
   }
 
   async del(ctx) {
@@ -17,7 +17,8 @@ class SpeakController {
   }
 
   async getAll(ctx) {
-    const { userId, pageNum, pageSize  } = ctx.request.query;
+    const { pageNum = 1, pageSize = 5  } = ctx.request.query;
+    const userId = ctx.request.query.userId || ctx.state.user.id;
     const res = await getAllSpeakByUserId(userId, pageNum * 1, pageSize * 1);
     ctx.body = {
       success: true,
