@@ -36,7 +36,9 @@ const User = seq.define('user', {
   createdAt: 'created_at',
   updatedAt: 'updated_at'
 });
-User.addHook('afterFind', transferTime())
+User.addHook('afterFind', (user, options) => {
+  transferTime(user);
+})
 
 // 强制同步数据库(创建数据表)
 //  User.sync({ force: true })

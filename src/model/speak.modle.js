@@ -30,7 +30,12 @@ Speak.belongsTo(User, {
   // as: 'userInfo'
 })
 
-Speak.addHook('afterFind', transferTime())
+Speak.addHook('afterFind', (speak, options) => {
+  transferTime(speak)
+});
+Speak.addHook('afterCreate', (speak, options) => {
+  transferTime(speak)
+})
 
 // Speak.sync({ force: true })
 
