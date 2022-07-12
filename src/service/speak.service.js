@@ -39,9 +39,9 @@ class SpeakService {
     const { count, rows } = await Speak.findAndCountAll({
       attributes: ['id', 'content', 'images', 'from_id', 'created_at'],
       where: { from_id: userId },
-      // offset: (pageNum - 1) * pageSize,
-      // limit: pageSize * 1,
-      // order: [['created_at', 'DESC']],
+      offset: (pageNum - 1) * pageSize,
+      limit: pageSize * 1,
+      order: [['created_at', 'DESC']],
       include: [{
         attributes: ['id', 'nickname', 'avatar'], 
         model: User
