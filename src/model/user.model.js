@@ -1,5 +1,7 @@
 const { DataTypes } = require('sequelize');
 const seq = require('../db/seq');
+const { transferTime } = require('./common-hook/transfer-time');
+
 
 // 创建模型(Model zd_user -> 表 zd_users)
 const User = seq.define('user', {
@@ -34,9 +36,7 @@ const User = seq.define('user', {
   createdAt: 'created_at',
   updatedAt: 'updated_at'
 });
-User.addHook('afterFind', (user, options) => {
-  user.dataValues.created_at = '2022-1-1'
-})
+User.addHook('afterFind', transferTime())
 
 // 强制同步数据库(创建数据表)
 //  User.sync({ force: true })

@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const seq = require('../db/seq');
+const { transferTime } = require('./common-hook/transfer-time');
 const User = require('./user.model');
 
 const Speak = seq.define('speak', {
@@ -28,6 +29,8 @@ Speak.belongsTo(User, {
   targetKey: 'id',
   // as: 'userInfo'
 })
+
+Speak.addHook('afterFind', transferTime())
 
 // Speak.sync({ force: true })
 
