@@ -3,7 +3,7 @@ const User = require('../model/user.model')
 
 class UserService {
   async createUser(username, password) {
-    const nickname = getRandomStr()
+    const nickname = '用户' + getRandomStr();
     const res = await User.create({ username, password, nickname })
     return res.dataValues
   }
