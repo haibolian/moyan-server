@@ -26,7 +26,10 @@ class UserController {
       message: '登录成功',
       data: {
         accessToken,
-        username
+        username,
+        nickname: res.nickname,
+        avatar: 'http://localhost:3000' + res.avatar,
+        motto: res.motto
       },
       success: true
     }

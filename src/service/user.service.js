@@ -4,7 +4,8 @@ const User = require('../model/user.model')
 class UserService {
   async createUser(username, password) {
     const nickname = '用户' + getRandomStr();
-    const res = await User.create({ username, password, nickname })
+    const avatar = '/avatars/default.webp';
+    const res = await User.create({ username, password, nickname, avatar })
     return res.dataValues
   }
 
