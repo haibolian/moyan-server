@@ -5,12 +5,12 @@ const transferTime = (result ,format = 'YYYY-MM-DD HH:mm:ss') => {
   let date;
   if(Array.isArray(result)) {
     result.forEach(item => {
-      date = item.dataValues?.created_at;
-      item.dataValues && (item.dataValues.created_at = moment(date).format(format));
+      date = item.dataValues?.createdAt;
+      item.dataValues && (item.dataValues.createdAt = moment(date).format(format));
     })
   }else {
-    date = result.dataValues.created_at;
-    result.dataValues.created_at = moment(date).format(format);
+    date = result.dataValues.createdAt;
+    result.dataValues.createdAt = moment(date).format(format);
   }
 }
 

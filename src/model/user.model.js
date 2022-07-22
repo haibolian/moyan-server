@@ -3,7 +3,6 @@ const seq = require('../db/seq');
 const { transferTime } = require('./common-hook/transfer-time');
 
 
-// 创建模型(Model zd_user -> 表 zd_users)
 const User = seq.define('user', {
   // id 会被sequelize自动创建, 管理
   username: {
@@ -32,10 +31,8 @@ const User = seq.define('user', {
     allowNull: true,
     comment: '座右铭',
   },
-},{
-  createdAt: 'created_at',
-  updatedAt: 'updated_at'
 });
+
 User.addHook('afterFind', (user, options) => {
   transferTime(user);
   if(user) user.dataValues.avatar = process.env.SERVER_ORIGIN + user.avatar;

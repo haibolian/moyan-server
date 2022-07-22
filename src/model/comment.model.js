@@ -7,35 +7,29 @@ const Comment = seq.define('comment', {
     allowNull: false,
     comment: '评论内容'
   },
-  from_id: {
+  repliesCount: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    defaultValue: 0,
+    comment: '回复数量'
+  },
+  fromId: {
     type: DataTypes.STRING,
     allowNull: false,
     comment: '评论者id'
   },
-  origin_type: {
+  originType: {
     type: DataTypes.STRING,
     allowNull: false,
     comment: '评论来源类型'
   },
-  origin_id: {
+  originId: {
     type: DataTypes.STRING,
     allowNull: false,
     comment: '评论来源id'
   },
-},{
-  createdAt: 'created_at',
-  updatedAt: 'updated_at'
 })
-  // fromNickname: {
-  //   type: DataTypes.STRING,
-  //   allowNull: false,
-  //   comment: '评论者昵称'
-  // },
-  // fromAvatar: {
-  //   type: DataTypes.STRING,
-  //   allowNull: false,
-  //   comment: '评论者头像'
-  // },
+
 // Comment.sync({ force: true })
 
 module.exports = Comment

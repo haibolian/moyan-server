@@ -1,4 +1,4 @@
-const Speak = require("../model/speak.modle")
+const Speak = require("../model/speak.model")
 const User = require("../model/user.model")
 
 class SpeakService {
@@ -6,7 +6,7 @@ class SpeakService {
     const findUserResult = await User.findOne({ where: { id } });
     if(!findUserResult) return { success: false, message: '用户不存在', data: null };
     const { nickname, avatar } = findUserResult.dataValues;
-    const res = await Speak.create({ from_id: id, content },{
+    const res = await Speak.create({ fromId: id, content },{
       include: [{
         attributes: ['id', 'nickname', 'avatar'],
         model: User
@@ -37,11 +37,11 @@ class SpeakService {
 
   async getAllSpeakByUserId(userId, pageNum, pageSize) {
     const { count, rows } = await Speak.findAndCountAll({
-      attributes: ['id', 'content', 'images', 'from_id', 'created_at'],
-      where: { from_id: userId },
+      attributes: ['id', 'content', 'images', 'fromId', 'createdAt', 'commentCount'],
+      where: { fromId: userId },
       offset: (pageNum - 1) * pageSize,
       limit: pageSize * 1,
-      order: [['created_at', 'DESC']],
+      order: [['createdAt', 'DESC']],
       include: [{
         attributes: ['id', 'nickname', 'avatar'], 
         model: User

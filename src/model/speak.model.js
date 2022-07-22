@@ -16,21 +16,19 @@ const Speak = seq.define('speak', {
   },
   commentCount: {
     type: DataTypes.INTEGER,
-    allowNull: true,
+    allowNull: false,
+    defaultValue: 0,
     comment: '评论数',
   },
-  from_id: {
+  fromId: {
     type: DataTypes.STRING,
     allowNull: false,
     comment: '说说所属用户id',
   }
-},{
-  createdAt: 'created_at',
-  updatedAt: 'updated_at'
 })
 
 Speak.belongsTo(User, {
-  foreignKey: 'from_id',
+  foreignKey: 'fromId',
   targetKey: 'id',
   // as: 'userInfo'
 })
