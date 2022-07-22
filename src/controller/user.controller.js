@@ -28,7 +28,7 @@ class UserController {
         accessToken,
         username,
         nickname: res.nickname,
-        avatar: 'http://localhost:3000' + res.avatar,
+        avatar: res.avatar,
         motto: res.motto
       },
       success: true

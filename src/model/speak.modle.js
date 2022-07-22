@@ -14,6 +14,11 @@ const Speak = seq.define('speak', {
     allowNull: true,
     comment: '说说图片', 
   },
+  commentCount: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    comment: '评论数',
+  },
   from_id: {
     type: DataTypes.STRING,
     allowNull: false,
