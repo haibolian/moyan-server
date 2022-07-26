@@ -1,5 +1,6 @@
 const Comment = require('../model/comment.model');
 const Speak = require('../model/speak.model');
+const User = require('../model/user.model');
 
 class CommentService {
   async create(body) {
@@ -34,13 +35,26 @@ class CommentService {
   }
   // 获取所有评论
   async getAll(body) {
-    const { speakId } = body
-    const res = await Comment.findAll({ where: { originId: speakId } })
+    const { speakId, pageNum = 1, pageSize = 100 } = body
+    const { count, rows } = await Comment.findAndCountAll({
+      where: { originId: speakId  },
+      offset: (pageNum - 1) * pageSize,
+      limit: pageSize * 1,
+      order: [['createdAt', 'DESC']],
+      include: [{
+        attributes: ['id', 'nickname', 'avatar'], 
+        model: User
+      }],
+    })
+    
     return {
       success: true,
       message: '获取成功',
       data: {
-        list: res.map(item => item.dataValues)
+        list: rows.map(item => item.dataValues),
+        pageNum,
+        pageSize,
+        total: count
       }
 
     }

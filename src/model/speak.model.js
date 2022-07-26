@@ -25,6 +25,8 @@ const Speak = seq.define('speak', {
     allowNull: false,
     comment: '说说所属用户id',
   }
+}, {
+  updatedAt: false
 })
 
 Speak.belongsTo(User, {

@@ -32,6 +32,8 @@ const Reply = seq.define('reply', {
     allowNull: false,
     comment: "被回复者ID"
   }
+}, {
+  updatedAt: false
 })
 
 // Reply.sync({ force: true })

@@ -1,5 +1,7 @@
 const { DataTypes } = require('sequelize')
 const seq = require('../db/seq');
+const { transferTime } = require('./common-hook/transfer-time');
+const User = require('./user.model');
 
 const Comment = seq.define('comment', {
   content: {
@@ -28,6 +30,20 @@ const Comment = seq.define('comment', {
     allowNull: false,
     comment: '评论来源id'
   },
+}, {
+  updatedAt: false
+})
+
+Comment.belongsTo(User, {
+  foreignKey: 'fromId',
+  targetKey: 'id',
+})
+
+Comment.addHook('afterFind', (comment, options) => {
+  transferTime(comment)
+});
+Comment.addHook('afterCreate', (comment, options) => {
+  transferTime(comment)
 })
 
 // Comment.sync({ force: true })
