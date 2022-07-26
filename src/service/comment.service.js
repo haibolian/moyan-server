@@ -32,6 +32,19 @@ class CommentService {
   decreaseCommentCount(originId) {
     Speak.decrement('commentCount', { where: { id: originId } })
   }
+  // 获取所有评论
+  async getAll(body) {
+    const { speakId } = body
+    const res = await Comment.findAll({ where: { originId: speakId } })
+    return {
+      success: true,
+      message: '获取成功',
+      data: {
+        list: res.map(item => item.dataValues)
+      }
+
+    }
+  }
 }
 
 module.exports = new CommentService();

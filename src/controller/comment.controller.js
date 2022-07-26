@@ -11,7 +11,12 @@ class CommentController {
   }
 
   async del(ctx) {
-    const res = await commentService.del(ctx.request.query)
+    const res = await commentService.del(ctx.request.query);
+    ctx.body = res
+  }
+
+  async getAll(ctx) {
+    const res = await commentService.getAll(ctx.request.query);
     ctx.body = res
   }
 }
