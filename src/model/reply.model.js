@@ -15,7 +15,7 @@ const Reply = seq.define('reply', {
   replyType: {
     type: DataTypes.STRING,
     allowNull: false,
-    comment: "回复类型（评论或回复）"
+    comment: "回复类型（评论或回复）--- 0: 评论  1: 回复"
   },
   replyId: {
     type: DataTypes.STRING,
