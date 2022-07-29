@@ -32,7 +32,6 @@ const Speak = seq.define('speak', {
 Speak.belongsTo(User, {
   foreignKey: 'fromId',
   targetKey: 'id',
-  // as: 'userInfo'
 })
 
 Speak.addHook('afterFind', (speak, options) => {

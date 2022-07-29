@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const seq = require('../db/seq');
+const User = require('./user.model');
 
 const Reply = seq.define('reply', {
   commentId: {
@@ -34,6 +35,17 @@ const Reply = seq.define('reply', {
   }
 }, {
   updatedAt: false
+})
+
+Reply.belongsTo(User, {
+  foreignKey: 'fromId',
+  targetKey: 'id',
+  as: 'from'
+})
+Reply.belongsTo(User, {
+  foreignKey: 'toId',
+  targetKey: 'id',
+  as: 'to'
 })
 
 // Reply.sync({ force: true })
