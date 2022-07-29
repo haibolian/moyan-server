@@ -38,7 +38,9 @@ class UserController {
   async getUser(ctx) {
     const { password, ...res } = await getUserInfo(ctx.state.user.username);
     return ctx.body = {
-      ...res
+      success: !!res,
+      message: res ? '获取成功': '获取失败',
+      data: res
     }
   }
 
