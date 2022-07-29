@@ -14,6 +14,7 @@ class ReplyService {
     if(res?.dataValues) this.increaseRepliesCountOfComment(commentId)
     const from = await User.findOne({ attributes, where: { id: fromId }})
     const to = await User.findOne({ attributes, where: { id: toId }})
+    const toReply = replyId && await Reply.findOne({ attributes: ['id', 'content'], where: { id: replyId }})
     const success = !!(res && res.dataValues)
     return {
       success,
@@ -21,7 +22,8 @@ class ReplyService {
       data: success ? {
         ...res.dataValues,
         from: from?.dataValues,
-        to: to?.dataValues
+        to: to?.dataValues,
+        toReply: toReply?.dataValues
       } : null
     }
   }
@@ -53,7 +55,7 @@ class ReplyService {
       offset: (pageNum - 1) * pageSize,
       limit: pageSize * 1,
       order: [['createdAt', 'DESC']],
-      include: [{ attributes, model, as: 'from'},{ attributes, model, as: 'to' }],
+      include: [{ attributes, model, as: 'from'},{ attributes, model, as: 'to' }, {attributes: ['id','content'], model: Reply, as: 'toReply'}],
     })
     
     return {

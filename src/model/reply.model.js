@@ -20,7 +20,7 @@ const Reply = seq.define('reply', {
   },
   replyId: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
     comment: "回复目标ID （评论或回复的 ID）"
   },
   fromId: {
@@ -46,6 +46,11 @@ Reply.belongsTo(User, {
   foreignKey: 'toId',
   targetKey: 'id',
   as: 'to'
+})
+Reply.belongsTo(Reply, {
+  foreignKey: 'replyId',
+  targetKey: 'id',
+  as: 'toReply'
 })
 
 // Reply.sync({ force: true })
