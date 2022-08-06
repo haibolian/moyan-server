@@ -43,7 +43,8 @@ class CommentService {
       order: [['createdAt', 'DESC']],
       include: [{
         attributes: ['id', 'nickname', 'avatar'], 
-        model: User
+        model: User,
+        as: 'from'
       }],
     })
     

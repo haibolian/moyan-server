@@ -37,6 +37,7 @@ const Comment = seq.define('comment', {
 Comment.belongsTo(User, {
   foreignKey: 'fromId',
   targetKey: 'id',
+  as: 'from'
 })
 
 Comment.addHook('afterFind', (comment, options) => {

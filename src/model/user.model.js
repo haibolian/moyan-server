@@ -35,7 +35,6 @@ const User = seq.define('user', {
 
 User.addHook('afterFind', (user, options) => {
   transferTime(user);
-  if(user) user.dataValues.avatar = process.env.SERVER_ORIGIN + user.avatar;
 })
 
 // 强制同步数据库(创建数据表)
