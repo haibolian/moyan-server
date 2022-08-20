@@ -70,16 +70,17 @@ class JournalService {
   }
 
   // 分页获取日记列表
-  async getAllByUserId(userId, pageNum, pageSize) {
+  async getListByUserId({userId, pageNum, pageSize, categoryId}) {
     const { count, rows } = await Journal.findAndCountAll({
-      attributes: ['id', 'content', 'images', 'fromId', 'createdAt', 'commentCount'],
-      where: { fromId: userId },
+      attributes: ['id', 'title', 'content', 'categoryId', 'createdAt', 'commentCount'],
+      where: Object.assign({ fromId: userId, isDraft: 0 }, categoryId ? { categoryId } : {}),
       offset: (pageNum - 1) * pageSize,
       limit: pageSize * 1,
       order: [['createdAt', 'DESC']],
       include: [{
-        attributes: ['id', 'nickname', 'avatar'], 
-        model: User
+        attributes: ['id', 'name'], 
+        model: Category,
+        as: 'category'
       }],
     })
     return {

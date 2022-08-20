@@ -1,11 +1,10 @@
 const {
-  publish, del, getJournal, getAllByUserId
+  publish, del, getJournal, getListByUserId
 } = require('../service/journal.service')
 
 class JournalController {
   async publish(ctx) {
     ctx.request.body.userId = ctx.state.user.id
-    console.log('鸡你太美',ctx.request.body);
     ctx.body = await publish(ctx.request.body)
   }
 
@@ -19,16 +18,18 @@ class JournalController {
     ctx.body = await getJournal(ctx.request.query.id)
   }
 
-  async getAll(ctx) {
-    const { pageNum = 1, pageSize = 5  } = ctx.request.query;
+  async getList(ctx) {
+    const { pageNum = 1, pageSize = 10, categoryId } = ctx.request.query;
     const userId = ctx.request.query.userId || ctx.state.user.id;
-    const res = await getAllByUserId(userId, pageNum * 1, pageSize * 1);
-    ctx.body = {
-      success: true,
-      message: '获取成功',
-      data: res
+    const params = {
+      pageNum: pageNum * 1,
+      pageSize: pageSize * 1,
+      userId,
+      categoryId
     }
-  }
+    const res = await getListByUserId(params);
+    ctx.body = res
+    }
 }
 
 module.exports = new JournalController()
