@@ -17,7 +17,10 @@ const Category = seq.define('category', {
   fromId: {
     type: DataTypes.STRING,
     allowNull: false,
-    comment: '分类所属用户id'
+    comment: '分类所属用户id',
+    get() {
+      return this.getDataValue('fromId') * 1;
+    }
   },
   count: {
     type: DataTypes.INTEGER,

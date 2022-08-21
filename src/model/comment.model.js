@@ -18,7 +18,10 @@ const Comment = seq.define('comment', {
   fromId: {
     type: DataTypes.STRING,
     allowNull: false,
-    comment: '评论者id'
+    comment: '评论者id',
+    get() {
+      return this.getDataValue('fromId') * 1;
+    }
   },
   originType: {
     type: DataTypes.STRING,
@@ -28,7 +31,10 @@ const Comment = seq.define('comment', {
   originId: {
     type: DataTypes.STRING,
     allowNull: false,
-    comment: '评论来源id'
+    comment: '评论来源id',
+    get() {
+      return this.getDataValue('originId') * 1;
+    }
   },
 }, {
   updatedAt: false

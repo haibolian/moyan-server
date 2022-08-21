@@ -24,6 +24,9 @@ const Speak = seq.define('speak', {
     type: DataTypes.STRING,
     allowNull: false,
     comment: '说说所属用户id',
+    get() {
+      return this.getDataValue('fromId') * 1;
+    }
   }
 }, {
   updatedAt: false

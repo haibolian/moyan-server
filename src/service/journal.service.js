@@ -72,6 +72,7 @@ class JournalService {
     }
     const { dataValues } = res
     dataValues.categoryName = dataValues.category.name;
+    dataValues.categoryId = dataValues.category.id;
     const { category, ...data } = dataValues
     return {
       success: true,
@@ -83,7 +84,7 @@ class JournalService {
   // 分页获取日记列表
   async getListByUserId({userId, pageNum, pageSize, categoryId}) {
     const { count, rows } = await Journal.findAndCountAll({
-      attributes: ['id', 'title', 'content', 'categoryId', 'createdAt', 'commentCount'],
+      attributes: ['id', 'title', 'content', 'categoryId', 'createdAt', 'updatedAt', 'commentCount'],
       where: Object.assign({ fromId: userId, isDraft: 0 }, categoryId ? { categoryId } : {}),
       offset: (pageNum - 1) * pageSize,
       limit: pageSize * 1,

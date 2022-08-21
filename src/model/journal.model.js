@@ -34,6 +34,9 @@ const Journal = seq.define('journal', {
     type: DataTypes.STRING,
     allowNull: false,
     comment: '日志分类id',
+    get() {
+      return this.getDataValue('categoryId') * 1;
+    }
   },
   commentCount: {
     type: DataTypes.INTEGER,
@@ -45,6 +48,9 @@ const Journal = seq.define('journal', {
     type: DataTypes.STRING,
     allowNull: false,
     comment: '日志所属用户id',
+    get() {
+      return this.getDataValue('fromId') * 1;
+    }
   }
 })
 
@@ -60,11 +66,11 @@ Journal.belongsTo(Category, {
   as: 'category'
 })
 
-Journal.addHook('afterFind', (speak, options) => {
-  transferTime(speak)
+Journal.addHook('afterFind', (journal, options) => {
+  transferTime(journal)
 });
-Journal.addHook('afterCreate', (speak, options) => {
-  transferTime(speak)
+Journal.addHook('afterCreate', (journal, options) => {
+  transferTime(journal)
 })
 
 // Journal.sync({ force: true })
