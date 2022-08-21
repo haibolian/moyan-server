@@ -1,5 +1,5 @@
 const {
-  publish, del, getJournal, getListByUserId
+  publish, del, update, getJournal, getListByUserId
 } = require('../service/journal.service')
 
 class JournalController {
@@ -12,6 +12,11 @@ class JournalController {
     const { id } = ctx.request.query;
     const res = await del(id)
     ctx.body = res
+  }
+
+  async update(ctx) {
+    ctx.request.body.userId = ctx.state.user.id
+    ctx.body = await update({ ...ctx.request.body })
   }
 
   async getJournal(ctx) {

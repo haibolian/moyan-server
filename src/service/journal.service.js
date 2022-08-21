@@ -39,6 +39,17 @@ class JournalService {
     }
   }
 
+  async update({ id, title, content, categoryId, editorMode, isDraft }) {
+    if(!id) return { success: false, message: 'id不能为空', data: null }
+    const data = await Journal.update({ title, content, categoryId, editorMode, isDraft }, { where: { id } })
+    const res = data[0] === 1
+    return {
+      success: res,
+      message: res ? '更新成功' : '更新失败',
+      data: id
+    }
+  }
+
   async getJournal(id) {
     const res = await Journal.findOne({
       where: { id },
