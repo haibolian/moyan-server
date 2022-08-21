@@ -1,6 +1,7 @@
 const Category = require('../model/category.model');
 const Speak = require('../model/speak.model');
 const User = require('../model/user.model');
+const Journal = require('../model/journal.model');
 
 class CategoryService {
   async create(body) {
@@ -39,6 +40,13 @@ class CategoryService {
         as: 'user'
       }],
     })
+    for await(const category of list) {
+      const { count } = await Journal.findAndCountAll({
+        where: { fromId: userId, categoryId: category.id, isDraft: false  },
+        order: [['createdAt', 'DESC']]
+      })
+      category.count = count
+    }
     
     return {
       success: true,
