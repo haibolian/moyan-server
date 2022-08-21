@@ -94,11 +94,19 @@ class JournalService {
         as: 'category'
       }],
     })
+    for(const row of rows){
+      row.dataValues.categoryName = row.dataValues.category.name;
+      delete row.dataValues.category;
+    }
     return {
-      pageNum,
-      pageSize,
-      total: count,
-      list: rows.map(item => item.dataValues)
+      success: !!rows,
+      message: !!rows ? '获取成功' : '获取失败',
+      data:{
+        pageNum,
+        pageSize,
+        total: count,
+        list: rows?.map(item => item.dataValues)
+      }
     }
   }
 }
