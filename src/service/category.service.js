@@ -41,9 +41,8 @@ class CategoryService {
       }],
     })
     for await(const category of list) {
-      const { count } = await Journal.findAndCountAll({
+      const count = await Journal.count({
         where: { fromId: userId, categoryId: category.id, isDraft: false  },
-        order: [['createdAt', 'DESC']]
       })
       category.count = count
     }
