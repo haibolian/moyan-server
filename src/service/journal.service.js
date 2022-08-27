@@ -19,14 +19,7 @@ class JournalService {
     return {
       success: true,
       message: '发布成功',
-      data: {
-        ...res?.dataValues,
-        user: {
-          id: userId,
-          nickname,
-          avatar
-        }
-      } 
+      data: res?.dataValues?.id
     }
   }
   
