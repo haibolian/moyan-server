@@ -7,7 +7,7 @@ class SpeakService {
     const findUserResult = await User.findOne({ where: { id } });
     if(!findUserResult) return { success: false, message: '用户不存在', data: null };
     const { nickname, avatar } = findUserResult.dataValues;
-    const imagesUrl = storeFiles(images, 'speak/' + id)
+    const imagesUrl = images ? storeFiles(images, 'speak/' + id) : null
     const res = await Speak.create({ fromId: id, content, images: imagesUrl },{
       include: [{
         attributes: ['id', 'nickname', 'avatar'],
