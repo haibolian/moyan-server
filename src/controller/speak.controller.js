@@ -3,7 +3,7 @@ const {
 } = require('../service/speak.service')
 class SpeakController {
   async publish(ctx) {
-    ctx.body = await publishSpeak(ctx.state.user.id, ctx.request.body)
+    ctx.body = await publishSpeak(ctx.state.user.id, ctx.request.body, ctx.request.files)
   }
 
   async del(ctx) {

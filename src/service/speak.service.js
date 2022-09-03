@@ -1,12 +1,14 @@
+const { storeFiles } = require('../utils/upload')
 const Speak = require("../model/speak.model")
 const User = require("../model/user.model")
 
 class SpeakService {
-  async publishSpeak(id ,{ content }) {
+  async publishSpeak(id, { content }, { images }) {
     const findUserResult = await User.findOne({ where: { id } });
     if(!findUserResult) return { success: false, message: '用户不存在', data: null };
     const { nickname, avatar } = findUserResult.dataValues;
-    const res = await Speak.create({ fromId: id, content },{
+    const imagesUrl = storeFiles(images, 'speak/' + id)
+    const res = await Speak.create({ fromId: id, content, images: imagesUrl },{
       include: [{
         attributes: ['id', 'nickname', 'avatar'],
         model: User
