@@ -7,8 +7,16 @@ class SpeakService {
     const findUserResult = await User.findOne({ where: { id } });
     if(!findUserResult) return { success: false, message: '用户不存在', data: null };
     const { nickname, avatar } = findUserResult.dataValues;
-    const imagesUrl = images ? storeFiles(images, 'speak/' + id) : null
-    const res = await Speak.create({ fromId: id, content, images: imagesUrl },{
+    // 存图片
+    const storeResult = images ? await storeFiles(images, id + '/speak') : null
+    if(images && !storeResult.success) {
+      return {
+        success: false,
+        message: '存储出现了点问题！',
+        data: null
+      }
+    }
+    const res = await Speak.create({ fromId: id, content, images: storeResult.filesPath },{
       include: [{
         attributes: ['id', 'nickname', 'avatar'],
         model: User
