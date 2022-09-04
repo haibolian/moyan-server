@@ -1,14 +1,21 @@
 const fs = require('fs')
 const path = require('path')
-const { COS_PUT_OBJECT } =require('./cos-sdk')
+const { COS_PUT_OBJECT, COS_DEL_MULTIPLE_OBJECT } =require('./cos-sdk')
+const { getDate } = require('./useDate')
+const { nanoid } = require('nanoid')
 
 const storeFile = async (file, dir, location = 'COS') => {
+  const suffix = file.name.split('.').pop()
+  const fileName = `${nanoid(50)}.${suffix}`
   if(location === 'COS') {
     // 腾讯云 cos 存储
-    return await COS_PUT_OBJECT(path.join(dir, file.name), fs.createReadStream(file.path), file.type)
+    return await COS_PUT_OBJECT(
+      path.join(dir, fileName),
+      fs.createReadStream(file.path),
+      file.type
+    )
   } else {
     // 本地存储
-    const fileName = new Date().getTime() + '_' + file.name
     const reader = fs.createReadStream(file.path)
     const targetPath = path.join(__dirname, `../upload/${dir}`)
     if(!fs.existsSync(targetPath)) fs.mkdirSync(targetPath)
@@ -20,9 +27,17 @@ const storeFile = async (file, dir, location = 'COS') => {
 }
 
 const storeFiles = async (files, dir) => {
+  if(!files) return {
+    success: true,
+    filesPath: null
+  }
   const result = []
+  const { y, m, d } = getDate()
+  dir = `${dir}/${y}/${m}/${d}`
   if(Array.isArray(files)) {
-    const urls = files.map(file => storeFile(file, dir))
+    const urls = files.map(file => {
+      return storeFile(file, dir)
+    })
     for await (const url of urls) {
       result.push(url)
     }
@@ -36,7 +51,14 @@ const storeFiles = async (files, dir) => {
   }
 }
 
+const deleteFiles = async (fileUrlList) => {
+  const reg = url => url.replace(/https:\/\/listen-wind-1308522723.cos.ap-shanghai.myqcloud.com\//, '')
+  const Objects = fileUrlList.map(url => ({ Key:  reg(url)}))
+  return await COS_DEL_MULTIPLE_OBJECT(Objects)
+}
+
 module.exports = {
   storeFile,
-  storeFiles
+  storeFiles,
+  deleteFiles
 }

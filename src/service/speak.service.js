@@ -1,4 +1,4 @@
-const { storeFiles } = require('../utils/upload')
+const { storeFiles, deleteFiles } = require('../utils/upload')
 const Speak = require("../model/speak.model")
 const User = require("../model/user.model")
 
@@ -8,7 +8,7 @@ class SpeakService {
     if(!findUserResult) return { success: false, message: '用户不存在', data: null };
     const { nickname, avatar } = findUserResult.dataValues;
     // 存图片
-    const storeResult = images ? await storeFiles(images, id + '/speak') : null
+    const storeResult = await storeFiles(images, id + '/speak/')
     if(images && !storeResult.success) {
       return {
         success: false,
@@ -37,7 +37,15 @@ class SpeakService {
   }
   
   async del(id) {
+    const speak = await Speak.findOne({ where: { id } })
+    if(!speak) return {
+      success: false,
+      message: '删除失败，未找到该说说',
+      data: id
+    }
+    const { dataValues: { images } } = speak
     const res = await Speak.destroy({ where: { id } })
+    res && images &&  deleteFiles(JSON.parse(images))
     return {
       success: !!res,
       message: res ? '删除成功' : '删除失败',
