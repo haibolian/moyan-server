@@ -8,15 +8,19 @@ class SpeakService {
     if(!findUserResult) return { success: false, message: '用户不存在', data: null };
     const { nickname, avatar } = findUserResult.dataValues;
     // 存图片
-    const storeResult = await storeFiles(images, id + '/speak/')
-    if(images && !storeResult.success) {
+    const { errFiles, sucFiles } = await storeFiles(images, id + '/speak/')
+
+    if(images && errFiles.length) {
       return {
         success: false,
         message: '存储出现了点问题！',
         data: null
       }
     }
-    const res = await Speak.create({ fromId: id, content, images: storeResult.filesPath },{
+    const imageURls_JSON = JSON.stringify(
+      sucFiles.map(sucFile => sucFile[1])
+    )
+    const res = await Speak.create({ fromId: id, content, images: imageURls_JSON},{
       include: [{
         attributes: ['id', 'nickname', 'avatar'],
         model: User

@@ -19,7 +19,7 @@ const COS_PUT_OBJECT = (Key, Body, ContentType) => {
       Body, // 上传文件对象
       ContentType
     }, function(err, data) {
-      resolve('https://' + data?.Location)
+      err ? reject(err) : resolve('https://' + data?.Location)
     });
   })
 }
