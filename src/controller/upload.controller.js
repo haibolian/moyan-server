@@ -1,4 +1,4 @@
-const { uploadAvatar } = require('../service/upload.service');
+const { uploadAvatar, uploadVditorImages } = require('../service/upload.service');
 
 class UploadController {
   async uploadAvatar(ctx) {
@@ -10,7 +10,11 @@ class UploadController {
       message: '上传成功',
       data: res.fileUrl,
     }
-  } 
+  }
+  
+  async vditorFiles(ctx) {
+    ctx.body = await uploadVditorImages(ctx.request.files)
+  }
 }
 
 module.exports = new UploadController()

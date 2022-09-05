@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const User = require('../model/user.model');
+const { storeFiles } = require('../utils/upload')
 
 class UploadService {
   async uploadAvatar(body, files) {
@@ -17,6 +18,22 @@ class UploadService {
       res,
       filePath,
       fileUrl
+    }
+  }
+
+  async uploadVditorImages({ images }) {
+    const { errFiles, sucFiles } = await storeFiles(images)
+    // 不能用 map，因为顺序未知
+    const succMap = sucFiles.reduce((prev, [filename, url]) => {
+      prev[filename] = url
+      return prev
+    }, {})
+    return {
+      msg: '',
+      data: {
+        errFiles,
+        succMap: sucFiles
+      }
     }
   }
 }
