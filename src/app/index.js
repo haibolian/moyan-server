@@ -8,8 +8,11 @@ const parameter = require('koa-parameter')
 
 const errHandler = require('./errHandler')
 const router = require('../router')
+const cors = require('koa2-cors')
 
 const app = new Koa()
+
+app.use(cors())
 
 app.use(
   KoaBody({
