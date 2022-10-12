@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 const seq = require('../db/seq');
-const { transferTime } = require('./common-hook/transfer-time');
+const dayjs = require('dayjs')
 const User = require('./user.model');
 
 const Speak = seq.define('speak', {
@@ -27,7 +27,15 @@ const Speak = seq.define('speak', {
     get() {
       return this.getDataValue('fromId') * 1;
     }
-  }
+  },
+  createdAt: {
+    type: DataTypes.DATE,
+    allowNull: false,
+    get() {
+      const createdAt = this.getDataValue('createdAt')
+      return dayjs(createdAt).format('YYYY-MM-DD HH:mm:ss')
+    },
+  },
 }, {
   updatedAt: false
 })
@@ -35,13 +43,6 @@ const Speak = seq.define('speak', {
 Speak.belongsTo(User, {
   foreignKey: 'fromId',
   targetKey: 'id',
-})
-
-Speak.addHook('afterFind', (speak, options) => {
-  transferTime(speak)
-});
-Speak.addHook('afterCreate', (speak, options) => {
-  transferTime(speak)
 })
 
 // Speak.sync({ force: true })

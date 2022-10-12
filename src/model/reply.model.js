@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const seq = require('../db/seq');
+const dayjs = require('dayjs')
 const User = require('./user.model');
 
 const Reply = seq.define('reply', {
@@ -32,7 +33,15 @@ const Reply = seq.define('reply', {
     type: DataTypes.STRING,
     allowNull: false,
     comment: "被回复者ID"
-  }
+  },
+  createdAt: {
+    type: DataTypes.DATE,
+    allowNull: false,
+    get() {
+      const createdAt = this.getDataValue('createdAt')
+      return dayjs(createdAt).format('YYYY-MM-DD HH:mm:ss')
+    },
+  },
 }, {
   updatedAt: false
 })

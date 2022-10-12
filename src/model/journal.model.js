@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 const seq = require('../db/seq');
-const { transferTime } = require('./common-hook/transfer-time');
+const dayjs = require('dayjs')
 const User = require('./user.model');
 const Category = require('./category.model')
 
@@ -51,7 +51,25 @@ const Journal = seq.define('journal', {
     get() {
       return this.getDataValue('fromId') * 1;
     }
+  },
+  createdAt: {
+    type: DataTypes.DATE,
+    allowNull: false,
+    get() {
+      const createdAt = this.getDataValue('createdAt')
+      return dayjs(createdAt).format('YYYY-MM-DD HH:mm:ss')
+    },
+  },
+  updatedAt: {
+    type: DataTypes.DATE,
+    allowNull: false,
+    get() {
+      const updatedAt = this.getDataValue('updatedAt')
+      return dayjs(updatedAt).format('YYYY-MM-DD HH:mm:ss')
+    },
   }
+}, {
+  timestamps: true
 })
 
 Journal.belongsTo(User, {
@@ -66,12 +84,6 @@ Journal.belongsTo(Category, {
   as: 'category'
 })
 
-Journal.addHook('afterFind', (journal, options) => {
-  transferTime(journal)
-});
-Journal.addHook('afterCreate', (journal, options) => {
-  transferTime(journal)
-})
 
 // Journal.sync({ force: true })
 

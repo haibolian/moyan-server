@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize')
 const seq = require('../db/seq');
-const { transferTime } = require('./common-hook/transfer-time');
+const dayjs = require('dayjs')
 const User = require('./user.model');
 
 const Category = seq.define('category', {
@@ -27,7 +27,15 @@ const Category = seq.define('category', {
     allowNull: false,
     defaultValue: 0,
     comment: '该分类下的日记数量'
-  }
+  },
+  createdAt: {
+    type: DataTypes.DATE,
+    allowNull: false,
+    get() {
+      const createdAt = this.getDataValue('createdAt')
+      return dayjs(createdAt).format('YYYY-MM-DD HH:mm:ss')
+    },
+  },
 }, {
   updatedAt: false
 })
@@ -36,13 +44,6 @@ Category.belongsTo(User, {
   foreignKey: 'fromId',
   targetKey: 'id',
   as: 'user'
-})
-
-Category.addHook('afterFind', (comment, options) => {
-  transferTime(comment)
-});
-Category.addHook('afterCreate', (comment, options) => {
-  transferTime(comment)
 })
 
 // Category.sync({ force: true })

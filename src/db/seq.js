@@ -11,6 +11,11 @@ const {
 const seq = new Sequelize(MYSQL_DB, MYSQL_USER, MYSQL_PWD, {
   host: MYSQL_HOST,
   dialect: 'mysql',
+  dialectOptions: {
+    charset: 'utf8mb4',
+    dateStrings: true,
+    typeCast: true
+  },
   timezone: '+08:00' //东八时区
 })
 

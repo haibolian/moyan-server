@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 const seq = require('../db/seq');
-const { transferTime } = require('./common-hook/transfer-time');
+const dayjs = require('dayjs')
 
 
 const User = seq.define('user', {
@@ -31,11 +31,25 @@ const User = seq.define('user', {
     allowNull: true,
     comment: '座右铭',
   },
+  createdAt: {
+    type: DataTypes.DATE,
+    allowNull: false,
+    get() {
+      const createdAt = this.getDataValue('createdAt')
+      return dayjs(createdAt).format('YYYY-MM-DD HH:mm:ss')
+    },
+  },
+  updatedAt: {
+    type: DataTypes.DATE,
+    allowNull: false,
+    get() {
+      const updatedAt = this.getDataValue('updatedAt')
+      return dayjs(updatedAt).format('YYYY-MM-DD HH:mm:ss')
+    },
+  },
+}, {
+  timestamps: true
 });
-
-User.addHook('afterFind', (user, options) => {
-  transferTime(user);
-})
 
 // 强制同步数据库(创建数据表)
 //  User.sync({ force: true })

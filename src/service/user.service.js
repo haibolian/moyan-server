@@ -6,7 +6,7 @@ class UserService {
     const nickname = '用户' + getRandomStr();
     const avatar = '/avatars/default.webp';
     const res = await User.create({ username, password, nickname, avatar })
-    return res.dataValues
+    return res
   }
 
   async getUserInfo(username = ''){

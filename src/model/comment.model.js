@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize')
 const seq = require('../db/seq');
-const { transferTime } = require('./common-hook/transfer-time');
+const dayjs = require('dayjs')
 const User = require('./user.model');
 
 const Comment = seq.define('comment', {
@@ -36,6 +36,14 @@ const Comment = seq.define('comment', {
       return this.getDataValue('originId') * 1;
     }
   },
+  createdAt: {
+    type: DataTypes.DATE,
+    allowNull: false,
+    get() {
+      const createdAt = this.getDataValue('createdAt')
+      return dayjs(createdAt).format('YYYY-MM-DD HH:mm:ss')
+    },
+  }
 }, {
   updatedAt: false
 })
@@ -44,13 +52,6 @@ Comment.belongsTo(User, {
   foreignKey: 'fromId',
   targetKey: 'id',
   as: 'from'
-})
-
-Comment.addHook('afterFind', (comment, options) => {
-  transferTime(comment)
-});
-Comment.addHook('afterCreate', (comment, options) => {
-  transferTime(comment)
 })
 
 // Comment.sync({ force: true })
