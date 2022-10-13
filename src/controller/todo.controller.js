@@ -11,7 +11,7 @@ class TodoController {
   }
 
   async getList(ctx) {
-    ctx.body = await getList(ctx.request.query)
+    ctx.body = await getList(ctx.state.user.id, ctx.request.query)
   }
   async del(ctx) {
     const res = await del(ctx.request.query)

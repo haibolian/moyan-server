@@ -18,6 +18,11 @@ const Todo = seq.define('todo', {
     allowNull: true,
     comment: '处理时间', 
   },
+  day: {
+    type: DataTypes.STRING(24),
+    allowNull: false,
+    comment: '哪天', 
+  },
   importance: {
     type: DataTypes.INTEGER,
     allowNull: false,

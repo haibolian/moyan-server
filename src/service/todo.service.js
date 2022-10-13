@@ -1,13 +1,15 @@
 const Todo = require('../model/todo.model');
-const { Op } =require('sequelize')
+const { Op } =require('sequelize');
+const dayjs = require('dayjs');
 
 class TodoService {
-  async createTodo(userId, body) {
+  async createTodo(userId, { day = dayjs().format('YYYY-MM-DD') }) {
     const res = await Todo.create({
       title: '',
       content: '',
       handleTime: null,
-      category: '#ffcb6b',
+      day,
+      category: '#ff675d',
       importance: 1,
       done: false,
       progress: 0,
@@ -32,20 +34,20 @@ class TodoService {
     }
   }
 
-  async getList({ day }) {
-    const start = new Date(day + ' 00:00:00');
-    const end = new Date(day + ' 23:59:59');
+  async getList(userId, { day: end }) {
+    const isToday = day => dayjs().format('YYYY-MM-DD') == day
     const res = await Todo.findAll({
       where: {
-        createdAt: {
-          [Op.between]: [start, end]
+        userId,
+        day: {
+          [Op.between]: [isToday(end) ? '0' : end, end]
         }
       }
     })
     return {
       success: true,
       message: '获取成功',
-      data: res
+      data: isToday(end) ? res.filter(todo => isToday(todo.day) ? true : !todo.done) : res
     }
   }
 
