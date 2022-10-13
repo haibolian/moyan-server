@@ -1,5 +1,5 @@
 const Todo = require('../model/todo.model');
-const User = require('../model/user.model');
+const { Op } =require('sequelize')
 
 class TodoService {
   async createTodo(userId, body) {
@@ -21,38 +21,48 @@ class TodoService {
     }
   }
 
-  async del(body) {
-    const res = await Category.destroy({
-      where: { id: body.id }
+  async updateTodo(body) {
+    const { id, userId, ...todoInfo } = body
+    const data = await Todo.update(todoInfo, { where: { id } })
+    const res = data[0] === 1
+    return {
+      success: res,
+      message: res ? '更新成功' : '更新失败',
+      data: id
+    }
+  }
+
+  async getList({ day }) {
+    const start = new Date(day + ' 00:00:00');
+    const end = new Date(day + ' 23:59:59');
+    const res = await Todo.findAll({
+      where: {
+        createdAt: {
+          [Op.between]: [start, end]
+        }
+      }
+    })
+    return {
+      success: true,
+      message: '获取成功',
+      data: res
+    }
+  }
+
+
+  async del({ id }) {
+    if(!id) return {
+      success: false,
+      message: 'id 不能为空',
+      data: null
+    }
+    const res = await Todo.destroy({
+      where: { id: id.split(',') }
     })
     return {
       success: !!res,
       message: !!res ? '删除成功' : '删除失败',
-      data: body.id
-    }
-  }
-  // 获取分类列表
-  async getAll(userId) {
-    const list = await Category.findAll({
-      where: { fromId: userId },
-      order: [['createdAt', 'DESC']],
-      include: [{
-        attributes: ['id', 'nickname', 'avatar'], 
-        model: User,
-        as: 'user'
-      }],
-    })
-    for await(const category of list) {
-      const count = await Journal.count({
-        where: { fromId: userId, categoryId: category.id, isDraft: false  },
-      })
-      category.count = count
-    }
-    
-    return {
-      success: true,
-      message: '获取成功',
-      data: list
+      data: id
     }
   }
 }
